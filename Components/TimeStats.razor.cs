@@ -1,4 +1,5 @@
 ﻿using HollowTime.Data;
+using HollowTime.Utility;
 using Microsoft.AspNetCore.Components;
 
 namespace HollowTime.Components
@@ -14,64 +15,63 @@ namespace HollowTime.Components
         public void RecordTime(TimeSpan timeToRecord)
         {
             lastTime = timeToRecord;
+            // Compute the averages
+            averageOfFive = computeAverage(5, timeToRecord);
+            averageOfTwelve = computeAverage(12, timeToRecord);
 
             // Populate the recordedTime structure with timeToRecord
             RecordData recordedTime = new RecordData
             {
                 SolveIndex = currentTimes.Count + 1,
-                SingleTime = new TimeRecordData { Type = RecordType.Single, Time = lastTime }
+                SingleTime = new TimeRecordData { Type = RecordType.Single, Time = lastTime, BestTime = isBestTime(lastTime, RecordType.Single)},
+                AverageOfFive = new TimeRecordData { Type = RecordType.AO5, Time = averageOfFive, BestTime = isBestTime(averageOfFive, RecordType.AO5) },
+                AverageOfTwelve = new TimeRecordData { Type = RecordType.AO12, Time = averageOfTwelve, BestTime = isBestTime(averageOfTwelve, RecordType.AO12) }
             };
-            // Register the recordedTime to the list, we need to add the object in the list before computing the averages (to update the list size)
+            // Register the recordedTime to the list
             currentTimes.Add(recordedTime);
-            
-            // Compute the averages
-            averageOfFive = computeAverage(5);
-            averageOfTwelve = computeAverage(12);
 
-            // Update the averages of the recordedTime struct
-            recordedTime.AverageOfFive = new TimeRecordData { Type = RecordType.AO5, Time = averageOfFive };
-            recordedTime.AverageOfTwelve = new TimeRecordData { Type = RecordType.AO12, Time = averageOfTwelve };
-
-            // Check if the time is the current best or not
-            recordedTime.SingleTime.BestTime = isBestTime(lastTime, RecordType.Single);
-            recordedTime.AverageOfFive.BestTime = isBestTime(averageOfFive, RecordType.AO5);
-            recordedTime.AverageOfTwelve.BestTime = isBestTime(averageOfTwelve, RecordType.AO12);
-            
             StateHasChanged();
         }
 
-        string getFormatedTime(TimeSpan timeSpan, bool handleZero = false)
+        string getFormatedTime(TimeSpan time)
         {
-            if (handleZero && timeSpan == TimeSpan.Zero)
+            if (time.Equal(TimeSpan.Zero))
             {
                 return "-";
             }
             
-            if (timeSpan.Hours > 0)
+            if (time.Hours > 0)
             {
-                return $"{timeSpan.Hours:00}.{timeSpan.Minutes:00}:{timeSpan.Seconds:00}.{(timeSpan.Milliseconds / 10):00}";
+                return $"{time.Hours:00}.{time.Minutes:00}:{time.Seconds:00}.{(time.Milliseconds / 10):00}";
             }
-            else if (timeSpan.Minutes > 0)
+            else if (time.Minutes > 0)
             {
-                return $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00}.{(timeSpan.Milliseconds / 10):00}";
+                return $"{time.Minutes:00}:{time.Seconds:00}.{(time.Milliseconds / 10):00}";
             }
             else
             {
-                return $"{timeSpan.Seconds:0}.{(timeSpan.Milliseconds / 10):00}";
+                return $"{time.Seconds:0}.{(time.Milliseconds / 10):00}";
             }
         }
 
-        TimeSpan computeAverage(int averageOfNumber)
+        TimeSpan computeAverage(int averageOfNumber, TimeSpan withTime = default(TimeSpan))
         {
             TimeSpan returnedAverage = TimeSpan.Zero;
+            bool isWithTime = withTime != TimeSpan.Zero;
 
-            if (currentTimes.Count < averageOfNumber)
+            // Check if there is enough times to compute the average (take withTime in consideration)
+            if ((!isWithTime && currentTimes.Count < averageOfNumber) || (isWithTime && currentTimes.Count < averageOfNumber - 1))
             {
                 return returnedAverage;
             }
 
             // Take last averageOfNumber times
             List<TimeSpan> times = currentTimes.Select(x => x.SingleTime.Time).ToList();
+            if (isWithTime)
+            {
+                times.Add(withTime);
+            }
+            
             List<TimeSpan> lastTimes = times.Skip(times.Count - averageOfNumber).ToList();
 
             // Sort them to find the best and the worst
@@ -90,21 +90,26 @@ namespace HollowTime.Components
         {
             bool isBest = false;
 
-            if (time == TimeSpan.Zero)
+            if (time.Equal(TimeSpan.Zero))
             {
                 return isBest;
             }
 
+            //List<RecordData> times = currentTimes.Where(x => !x.SingleTime.Time.Equal(TimeSpan.Zero)).ToList();
+            
             switch (recordType)
             {
                 case RecordType.Single:
-                    isBest = currentTimes.All(x => x.SingleTime.Time > time);
+                    isBest = currentTimes.Where(x => !x.SingleTime.Time.Equal(TimeSpan.Zero))
+                                            .All(x => x.SingleTime.Time > time);
                     break;
                 case RecordType.AO5:
-                    isBest = currentTimes.All(x => x.AverageOfFive.Time > time);
+                    isBest = currentTimes.Where(x => !x.AverageOfFive.Time.Equal(TimeSpan.Zero))
+                                            .All(x => x.AverageOfFive.Time > time);
                     break;
                 case RecordType.AO12:
-                    isBest = currentTimes.All(x => x.AverageOfTwelve.Time > time);
+                    isBest = currentTimes.Where(x => !x.AverageOfTwelve.Time.Equal(TimeSpan.Zero))
+                                            .All(x => x.AverageOfTwelve.Time > time);
                     break;
                 default:
                     isBest = false;

@@ -37,9 +37,40 @@
                             </MudText>
                         </MudTd>
                     }
-                    
-                    <MudTd>@getFormatedTime(item.AverageOfFive.Time, true)</MudTd>
-                    <MudTd>@getFormatedTime(item.AverageOfTwelve.Time, true)</MudTd>
+
+                    @if (item.AverageOfFive.BestTime)
+                    {
+                        <MudTd>
+                            <MudText Color="Color.Success">
+                                <b>@getFormatedTime(item.AverageOfFive.Time)</b>
+                            </MudText>
+                        </MudTd>
+                    }
+                    else
+                    {
+                        <MudTd>
+                            <MudText Color="Color.Default">
+                                @getFormatedTime(item.AverageOfFive.Time)
+                            </MudText>
+                        </MudTd>
+                    }
+
+                    @if (item.AverageOfTwelve.BestTime)
+                    {
+                        <MudTd>
+                            <MudText Color="Color.Success">
+                                <b>@getFormatedTime(item.AverageOfTwelve.Time)</b>
+                            </MudText>
+                        </MudTd>
+                    }
+                    else
+                    {
+                        <MudTd>
+                            <MudText Color="Color.Default">
+                                @getFormatedTime(item.AverageOfTwelve.Time)
+                            </MudText>
+                        </MudTd>
+                    }
                 </RowTemplate>
             </MudTable>
 
