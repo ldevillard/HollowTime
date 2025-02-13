@@ -1,0 +1,41 @@
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+
+namespace HollowTime.Pages
+{
+    public partial class Home : ComponentBase
+    {
+        HollowTime.Components.Timer timer;
+        //Components.Stats.TimeStats currentStats;
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+            {
+                timer.OnTimerEnded += onTimerEnded;
+            }
+        }
+
+        void onKeyDown(KeyboardEventArgs e)
+        {
+            if (e.Key == " ")
+                timer?.TryLoadTimer();
+        }
+
+        void onKeyUp(KeyboardEventArgs e)
+        {
+            if (e.Key == " ")
+                timer?.TryStartTimer();
+        }
+
+        void onTimerEnded(TimeSpan elapsedTime)
+        {
+            //currentStats.RecordTime(elapsedTime);
+        }
+
+        public void Dispose()
+        {
+            timer.OnTimerEnded -= onTimerEnded;
+        }
+    }
+}

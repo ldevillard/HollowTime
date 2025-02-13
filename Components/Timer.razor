@@ -1,0 +1,14 @@
+﻿<MudText Color="@currentColor" Style="text-align: center; font-size: 200px; font-family: 'Courier New', monospace; display: flex; justify-content: center;" Typo="Typo.h1">
+    @if (elapsedTime.Hours > 0)
+    {
+        @($"{elapsedTime.Hours:00}.{elapsedTime.Minutes:00}:{elapsedTime.Seconds:00}.{(elapsedTime.Milliseconds / 10):00}")
+    }
+    else if (elapsedTime.Minutes > 0)
+    {
+        @($"{elapsedTime.Minutes:00}:{elapsedTime.Seconds:00}.{(elapsedTime.Milliseconds / 10):00}")
+    }
+    else
+    {
+        @($"{elapsedTime.Seconds:0}.{(elapsedTime.Milliseconds / 10):00}")
+    }
+</MudText>
