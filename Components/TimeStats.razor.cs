@@ -33,9 +33,9 @@ namespace HollowTime.Components
             recordedTime.AverageOfTwelve = new TimeRecordData { Type = RecordType.AO12, Time = averageOfTwelve };
 
             // Check if the time is the current best or not
-            recordedTime.SingleTime.BestTime = isBestTime(averageOfFive, RecordType.Single);
+            recordedTime.SingleTime.BestTime = isBestTime(lastTime, RecordType.Single);
             recordedTime.AverageOfFive.BestTime = isBestTime(averageOfFive, RecordType.AO5);
-            recordedTime.AverageOfTwelve.BestTime = isBestTime(averageOfFive, RecordType.AO12);
+            recordedTime.AverageOfTwelve.BestTime = isBestTime(averageOfTwelve, RecordType.AO12);
             
             StateHasChanged();
         }
@@ -90,16 +90,21 @@ namespace HollowTime.Components
         {
             bool isBest = false;
 
+            if (time == TimeSpan.Zero)
+            {
+                return isBest;
+            }
+
             switch (recordType)
             {
                 case RecordType.Single:
-                    isBest = currentTimes.All(x => x.SingleTime.Time > time && x.SingleTime.Time != time);
+                    isBest = currentTimes.All(x => x.SingleTime.Time > time);
                     break;
                 case RecordType.AO5:
-                    isBest = currentTimes.All(x => x.AverageOfFive.Time > time && x.AverageOfFive.Time != time);
+                    isBest = currentTimes.All(x => x.AverageOfFive.Time > time);
                     break;
                 case RecordType.AO12:
-                    isBest = currentTimes.All(x => x.AverageOfTwelve.Time > time && x.AverageOfTwelve.Time != time);
+                    isBest = currentTimes.All(x => x.AverageOfTwelve.Time > time);
                     break;
                 default:
                     isBest = false;
