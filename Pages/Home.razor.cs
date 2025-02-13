@@ -6,7 +6,7 @@ namespace HollowTime.Pages
     public partial class Home : ComponentBase
     {
         HollowTime.Components.Timer timer;
-        //Components.Stats.TimeStats currentStats;
+        HollowTime.Components.TimeStats currentStats;
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -30,7 +30,7 @@ namespace HollowTime.Pages
 
         void onTimerEnded(TimeSpan elapsedTime)
         {
-            //currentStats.RecordTime(elapsedTime);
+            currentStats.RecordTime(elapsedTime);
         }
 
         public void Dispose()
