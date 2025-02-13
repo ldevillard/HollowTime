@@ -69,11 +69,11 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-SLhyW72VjVuNlKoiaz0N7k4A\/TesDToOQUCkGlYw6Mg=",
+      "hash": "sha256-MsL2gkYOMMtjCte3UaKwOPIGqBiB3vYUVaPLm3PVOn4=",
       "url": "_framework\/blazor.boot.json"
     },
     {
-      "hash": "sha256-U1VaBXZilnCwmuuX0cPjfy9VjyvxVWObVcot0vurNws=",
+      "hash": "sha256-CtoCrOLILsptEsFBP7plzSTtofEU3wRNw\/\/x5M13pBQ=",
       "url": "_framework\/HollowTime.wasm"
     },
     {
@@ -261,5 +261,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "ojYfbHci"
+  "version": "XNZ45S\/y"
 };
