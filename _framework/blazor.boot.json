@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "HollowTime",
   "resources": {
-    "hash": "sha256-0bNl2IzP/izdHspgEHNhGat62jEKSpyIpYIqAX6G93s=",
+    "hash": "sha256-C2XYl89Ypm3dtnAh9RP7C+zY37vIV6d11ZwyK50zkZk=",
     "jsModuleNative": {
       "dotnet.native.8.0.13.f1wj86lvfk.js": "sha256-xNQsYHtL1vcbrVTHDZAwJM4WovpoyjsrM2C6FQ8cW1w="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "HollowTime.wasm": "sha256-CtoCrOLILsptEsFBP7plzSTtofEU3wRNw//x5M13pBQ=",
+      "HollowTime.wasm": "sha256-htEYrEiO3FGz0bd/9k912WMWtFHhDjyDqvVyv1UNcLg=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-89iuHISD/XnYUxI+leQKE1lYtKRCq7cCNs46WPyRmOY=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-0xq40wmmGjJnG5xRDLC72byypwg6YBfHImEPHYhp5YM=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-LfSuWkavDE08wwxsvVxUOwTKoGHAYFwEui9R9DI1S10=",
