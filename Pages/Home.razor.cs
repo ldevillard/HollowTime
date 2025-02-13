@@ -5,12 +5,12 @@ namespace HollowTime.Pages
 {
     public partial class Home : ComponentBase
     {
-        HollowTime.Components.Timer timer;
-        HollowTime.Components.TimeStats currentStats;
+        HollowTime.Components.Timer? timer;
+        HollowTime.Components.TimeStats? currentStats;
 
         protected override void OnAfterRender(bool firstRender)
         {
-            if (firstRender)
+            if (firstRender && timer is not null)
             {
                 timer.OnTimerEnded += onTimerEnded;
             }
@@ -30,12 +30,15 @@ namespace HollowTime.Pages
 
         void onTimerEnded(TimeSpan elapsedTime)
         {
-            currentStats.RecordTime(elapsedTime);
+            currentStats?.RecordTime(elapsedTime);
         }
 
         public void Dispose()
         {
-            timer.OnTimerEnded -= onTimerEnded;
+            if (timer is not null) 
+            {
+                timer.OnTimerEnded -= onTimerEnded;
+            }
         }
     }
 }
