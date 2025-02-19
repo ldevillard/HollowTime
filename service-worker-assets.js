@@ -25,8 +25,12 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-b5kMLDR9PQ06bds8ByChCdb+hQ7z6eoqYdP+GCZKltU=",
+      "hash": "sha256-oDQG9EMox\/1tpQHt7IInONQeVJQ9Hb7jH8rrQcHpmwg=",
       "url": "index.html"
+    },
+    {
+      "hash": "sha256-l2Aee7CcKaNDtj63Kd3A4DLb4xTGXdqIRXmjjXsoHyM=",
+      "url": "js\/index.bundle.js"
     },
     {
       "hash": "sha256-TXjmQPDYMvexM8er66Ij+jpnmahQaiXBegW0bFaD2Wk=",
@@ -69,11 +73,11 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-YI4cy\/CpwoRcVIng\/iuGVP5Q79eCjuQpzgGXnLP0EAY=",
+      "hash": "sha256-KL5+DsLKEVGM98WgXukWBzp6hqg\/bJMBWUhlY+7JJZk=",
       "url": "_framework\/blazor.boot.json"
     },
     {
-      "hash": "sha256-htEYrEiO3FGz0bd\/9k912WMWtFHhDjyDqvVyv1UNcLg=",
+      "hash": "sha256-j0f+OA7Ex9hYz5snraY3qyTFqZfydLtp8sA4jbOUiG0=",
       "url": "_framework\/HollowTime.wasm"
     },
     {
@@ -225,7 +229,7 @@
       "url": "_framework\/System.Runtime.InteropServices.JavaScript.wasm"
     },
     {
-      "hash": "sha256-GelCqoN8jPZhe4a1d5LSV6McATdZkpuNdMN5ifHfKt4=",
+      "hash": "sha256-j2TQzfG2zM8h8DukVepaMYl2VFlLPt4yGQ3CLVjeVUs=",
       "url": "_framework\/System.Runtime.wasm"
     },
     {
@@ -261,5 +265,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "anKIzatY"
+  "version": "qR5GfiiJ"
 };
