@@ -7,11 +7,19 @@ namespace HollowTime.Components
     public partial class TimeStats : ComponentBase
     {
         List<RecordData> currentTimes = new List<RecordData>();
-
+        List<SummaryTimeData> summaryTimes = new List<SummaryTimeData>();
+        
         TimeSpan lastTime;
         TimeSpan averageOfFive;
         TimeSpan averageOfTwelve;
 
+        protected override void OnInitialized()
+        {
+            summaryTimes.Add(new SummaryTimeData { Type = RecordType.Single});
+            summaryTimes.Add(new SummaryTimeData { Type = RecordType.AO5});
+            summaryTimes.Add(new SummaryTimeData { Type = RecordType.AO12});
+        }
+        
         public void RecordTime(TimeSpan timeToRecord)
         {
             lastTime = timeToRecord;
@@ -30,6 +38,14 @@ namespace HollowTime.Components
             // Register the recordedTime to the list
             currentTimes.Add(recordedTime);
 
+            // Fill the summary data
+            summaryTimes[0].Current = lastTime;
+            summaryTimes[0].Best = recordedTime.SingleTime.BestTime ? lastTime : summaryTimes[0].Best;
+            summaryTimes[1].Current = averageOfFive;
+            summaryTimes[1].Best = recordedTime.AverageOfFive.BestTime ? averageOfFive : summaryTimes[1].Best;
+            summaryTimes[2].Current = averageOfTwelve;
+            summaryTimes[2].Best = recordedTime.AverageOfTwelve.BestTime ? averageOfTwelve : summaryTimes[2].Best;
+            
             StateHasChanged();
         }
 

@@ -1,11 +1,19 @@
-﻿<div style="position: absolute; top: 50px; left: 50px; min-width: 300px;">
+﻿<div style="position: absolute; top: 20px; left: 50px; min-width: 300px;">
 
-    <MudCard style="min-height: 15vh; max-height: 10vh; margin-bottom: 3vh">
-        <MudCardContent Class="overflow-auto" Style="flex: 1;">
-            <MudText Typo="Typo.h4" Style="text-align: center"><b>STATS</b></MudText>
-            <br />
-            <MudText Typo="Typo.body1">AO5: @getFormatedTime(averageOfFive)</MudText>
-            <MudText Typo="Typo.body1">AO12: @getFormatedTime(averageOfTwelve)</MudText>
+    <MudCard style="margin-bottom: 3vh">
+        <MudCardContent>
+            <MudTable Elevation="0" Items="@summaryTimes" Dense="true">
+                <HeaderContent>
+                    <MudTh>#</MudTh>
+                    <MudTh>Current</MudTh>
+                    <MudTh>Best</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="item">
+                    <MudTd>@item.Type.ToString()</MudTd>
+                    <MudTd><b>@getFormatedTime(item.Current)</b></MudTd>
+                    <MudTd><b>@getFormatedTime(item.Best)</b></MudTd>
+                </RowTemplate>
+            </MudTable>
         </MudCardContent>
     </MudCard>
 

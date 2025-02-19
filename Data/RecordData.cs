@@ -21,4 +21,11 @@
         public TimeSpan Time { get; set; }
         public bool BestTime { get; set; }
     }
+    
+    public class SummaryTimeData
+    {
+        public RecordType Type { get; set; }
+        public TimeSpan Current { get; set; }
+        public TimeSpan Best { get; set; }
+    }
 }
