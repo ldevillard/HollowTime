@@ -5,13 +5,16 @@
 
 <MudGrid style="height: 90vh; width: 100%; position: relative; outline: none;" tabindex="0" @onkeydown="onKeyDown" @onkeyup="onKeyUp">
     <!-- Scramble -->
-    <MudItem Class="position-absolute d-flex align-center justify-center mud-width-full" xs="12">
+    <MudItem Class="position-absolute d-flex align-center mud-width-full justify-center" xs="12">
         <MudText Typo="Typo.h4"><b>@currentScramble</b></MudText>
-        <scramble-display visualization="3D" scramble="@currentScramble"></scramble-display>
     </MudItem>
+    
+    <!-- Cube Visual -->
+    <CubeVisualizer CurrentScramble="@currentScramble"/>
+    
     <!-- Timer -->
-    <MudItem Class="d-flex align-center justify-center mud-width-full" xs="12">
-        <MudContainer MaxWidth="MaxWidth.Small" Class="display: flex;">
+    <MudItem Class="d-flex align-center mud-width-full justify-center" xs="12">
+        <MudContainer MaxWidth="MaxWidth.Small" Class="flex; display:">
             <HollowTime.Components.Timer @ref="timer"/>
         </MudContainer>
     </MudItem>
