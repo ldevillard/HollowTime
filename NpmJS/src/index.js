@@ -2,10 +2,10 @@
 
 window.scrambleGenerator =
 {
-    getDefaultScramble: () =>
+    getDefaultScramble: (eventType) =>
     {
         const scrambler = new Scrambow();
-        scrambler.setType('333');
+        scrambler.setType(eventType);
         return scrambler.get()[0].scramble_string;
     }
 };

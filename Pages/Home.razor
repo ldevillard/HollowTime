@@ -5,12 +5,26 @@
 
 <MudGrid style="height: 90vh; width: 100%; position: relative; outline: none;" tabindex="0" @onkeydown="onKeyDown" @onkeyup="onKeyUp">
     <!-- Scramble -->
-    <MudItem Class="position-absolute d-flex align-center mud-width-full justify-center" xs="12">
-        <MudText Typo="Typo.h4"><b>@currentScramble</b></MudText>
+    <MudItem Class="position-absolute d-flex flex-column align-center mud-width-full justify-center" xs="12">
+        <MudMenu Dense="true" Variant="Variant.Filled" Label="Event Type">
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("333"))" Label="Rubik's Cube" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("222"))" Label="2x2" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("444"))" Label="4x4" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("555"))" Label="5x5" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("666"))" Label="6x6" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("777"))" Label="7x7" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("pyram"))" Label="Pyraminx" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("minx"))" Label="Megaminx" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("skewb"))" Label="Skewb" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("sq1"))" Label="Square One" />
+            <MudMenuItem OnClick="@(() => onEventTypeSelected("clock"))" Label="Clock" />
+        </MudMenu>
+        <br/>
+        <MudText Style="max-width: 1000px" Align="Align.Center" Typo="Typo.h4"><b>@currentScramble</b></MudText>
     </MudItem>
     
     <!-- Cube Visual -->
-    <CubeVisualizer CurrentScramble="@currentScramble"/>
+    <CubeVisualizer CurrentScramble="@currentScramble" CurrentEvent="@currentEventType"/>
     
     <!-- Timer -->
     <MudItem Class="d-flex align-center mud-width-full justify-center" xs="12">

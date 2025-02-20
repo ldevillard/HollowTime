@@ -10,6 +10,7 @@ namespace HollowTime.Pages
         HollowTime.Components.TimeStats? currentStats;
 
         string currentScramble = String.Empty;
+        string currentEventType = String.Empty;
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -40,10 +41,16 @@ namespace HollowTime.Pages
 
         async void refreshScramble() 
         {
-            currentScramble = await JS.InvokeAsync<string>("scrambleGenerator.getDefaultScramble");
+            currentScramble = await JS.InvokeAsync<string>("scrambleGenerator.getDefaultScramble", currentEventType);
             StateHasChanged();
         }
 
+        void onEventTypeSelected(string eventType)
+        {
+            currentEventType = eventType;
+            refreshScramble();
+        }
+        
         public void Dispose()
         {
             if (timer is not null) 

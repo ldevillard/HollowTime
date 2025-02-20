@@ -8,6 +8,9 @@ namespace HollowTime.Components
         [Parameter]
         public string CurrentScramble { get; set; } = string.Empty;
 
+        [Parameter]
+        public string CurrentEvent { get; set; } = string.Empty;
+        
         bool is3D
         {
             get => _is3D;
