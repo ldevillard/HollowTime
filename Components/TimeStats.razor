@@ -20,7 +20,7 @@
     <MudCard style="min-height: 60vh; max-height: 60vh" Class="d-flex flex-column">
         <MudCardContent Class="overflow-auto" Style="flex: 1;">
 
-            <MudTable Elevation="0" Items="@currentTimes.OrderByDescending(t => t.SolveIndex)">
+            <MudTable Dense="true" Elevation="0" Items="@currentTimes.OrderByDescending(t => t.SolveIndex)">
                 <HeaderContent>
                     <MudTh>#</MudTh>
                     <MudTh>TIME</MudTh>

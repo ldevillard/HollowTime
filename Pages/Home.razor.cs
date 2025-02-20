@@ -10,7 +10,9 @@ namespace HollowTime.Pages
         HollowTime.Components.TimeStats? currentStats;
 
         string currentScramble = String.Empty;
-        string currentEventType = String.Empty;
+        string currentEventName = "3x3";
+        string currentEventType = "333";
+        string currentSubset = String.Empty;
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -41,16 +43,31 @@ namespace HollowTime.Pages
 
         async void refreshScramble() 
         {
-            currentScramble = await JS.InvokeAsync<string>("scrambleGenerator.getDefaultScramble", currentEventType);
+            if (currentSubset != string.Empty) 
+            {
+                currentScramble = await JS.InvokeAsync<string>("scrambleGenerator.getDefaultScramble", currentSubset);
+            }
+            else 
+            {
+                currentScramble = await JS.InvokeAsync<string>("scrambleGenerator.getDefaultScramble", currentEventType);
+            }
             StateHasChanged();
         }
 
-        void onEventTypeSelected(string eventType)
+        void onEventTypeSelected(string eventType, string eventName)
         {
             currentEventType = eventType;
+            currentEventName = eventName;
+            currentSubset = String.Empty;
             refreshScramble();
         }
-        
+
+        void onSubsetSelected(string subset)
+        {
+            currentSubset = subset;
+            refreshScramble();
+        }
+
         public void Dispose()
         {
             if (timer is not null) 
