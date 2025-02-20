@@ -2,6 +2,9 @@
 bin/
 obj/
 
+# Node
+node_modules/
+
 # User-specific files
 *.user
 *.suo
