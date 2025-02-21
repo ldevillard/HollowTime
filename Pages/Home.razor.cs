@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using HollowTime.Data;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
@@ -6,20 +7,17 @@ namespace HollowTime.Pages
 {
     public partial class Home : ComponentBase
     {
-        HollowTime.Components.Timer? timer;
-        HollowTime.Components.TimeStats? currentStats;
-
-        string currentScramble = String.Empty;
-        string currentEventName = "3x3";
-        string currentEventType = "333";
-        string currentSubset = String.Empty;
-
+        Components.Timer timer = new();
+        Components.TimeStats currentStats = new();
+        Components.Scramble.CubeScramble scramble = new();
+        Components.CubeVisualizer visualizer = new();
+        
         protected override void OnAfterRender(bool firstRender)
         {
-            if (firstRender && timer is not null)
+            if (firstRender)
             {
-                refreshScramble();
                 timer.OnTimerEnded += onTimerEnded;
+                scramble.OnScrambleChanged += onScrambleChanged;
             }
         }
 
@@ -37,43 +35,19 @@ namespace HollowTime.Pages
 
         void onTimerEnded(TimeSpan elapsedTime)
         {
-            refreshScramble();
+            scramble?.RefreshScramble();
             currentStats?.RecordTime(elapsedTime);
         }
 
-        async void refreshScramble() 
+        void onScrambleChanged(ScrambleData scrambleData)
         {
-            if (currentSubset != string.Empty) 
-            {
-                currentScramble = await JS.InvokeAsync<string>("scrambleGenerator.getDefaultScramble", currentSubset);
-            }
-            else 
-            {
-                currentScramble = await JS.InvokeAsync<string>("scrambleGenerator.getDefaultScramble", currentEventType);
-            }
-            StateHasChanged();
-        }
-
-        void onEventTypeSelected(string eventType, string eventName)
-        {
-            currentEventType = eventType;
-            currentEventName = eventName;
-            currentSubset = String.Empty;
-            refreshScramble();
-        }
-
-        void onSubsetSelected(string subset)
-        {
-            currentSubset = subset;
-            refreshScramble();
+            visualizer?.RefreshVisualizer(scrambleData);
         }
 
         public void Dispose()
         {
-            if (timer is not null) 
-            {
-                timer.OnTimerEnded -= onTimerEnded;
-            }
+            timer.OnTimerEnded -= onTimerEnded;
+            scramble.OnScrambleChanged -= onScrambleChanged;
         }
     }
 }

@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using HollowTime.Components.Scramble;
+using HollowTime.Data;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace HollowTime.Components
 {
     public partial class CubeVisualizer : ComponentBase
     {
-        [Parameter]
-        public string CurrentScramble { get; set; } = string.Empty;
-
-        [Parameter]
-        public string CurrentEvent { get; set; } = string.Empty;
+        string currentScramble { get; set; } = string.Empty;
+        string currentEvent { get; set; } = string.Empty;
         
         bool is3D
         {
@@ -24,6 +23,13 @@ namespace HollowTime.Components
         
         string buttoncLabel = "3D";
 
+        public void RefreshVisualizer(ScrambleData scrambleData)
+        {
+            currentScramble = scrambleData.Scramble;
+            currentEvent = scrambleData.EventType;
+            StateHasChanged();
+        }
+        
         void onButtonClicked()
         {
             is3D = !is3D;

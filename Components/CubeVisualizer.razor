@@ -2,11 +2,11 @@
     <MudItem xs="12">
         @if (is3D)
         {
-            <scramble-display visualization="3D" event="@CurrentEvent" scramble="@CurrentScramble"></scramble-display>
+            <scramble-display visualization="3D" event="@currentEvent" scramble="@currentScramble"></scramble-display>
         }
         else
         {
-            <scramble-display visualization="2D" event="@CurrentEvent" scramble="@CurrentScramble"></scramble-display>
+            <scramble-display visualization="2D" event="@currentEvent" scramble="@currentScramble"></scramble-display>
         }
         <div style="text-align: right;">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@onButtonClicked">

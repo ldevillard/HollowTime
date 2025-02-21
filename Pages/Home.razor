@@ -1,48 +1,13 @@
 ﻿@page "/"
-@inject IJSRuntime JS
 
 <PageTitle>Hollow Time</PageTitle>
 
 <MudGrid style="height: 90vh; width: 100%; position: relative; outline: none;" tabindex="0" @onkeydown="onKeyDown" @onkeyup="onKeyUp">
     <!-- Scramble -->
-    <MudItem Class="position-absolute d-flex flex-column align-center mud-width-full justify-center" xs="12">
-        <MudItem Style="margin-bottom: 20px" xs="12">
-            <MudMenu Dense="true" Variant="Variant.Filled" Label="@currentEventName">
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("333", "3x3"))" Label="3x3" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("222", "2x2"))" Label="2x2" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("444", "4x4"))" Label="4x4" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("555", "5x5"))" Label="5x5" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("666", "6x6"))" Label="6x6" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("777", "7x7"))" Label="7x7" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("pyram", "Pyraminx"))" Label="Pyraminx" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("minx", "Megaminx"))" Label="Megaminx" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("skewb", "Skewb"))" Label="Skewb" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("sq1", "Square One"))" Label="Square One" />
-                <MudMenuItem OnClick="@(() => onEventTypeSelected("clock", "Clock"))" Label="Clock" />
-            </MudMenu>
-            @if (currentEventType == "222")
-            {
-                // TODO: Need to encapsulate this in a new component
-                <MudMenu Style="margin-left: 20px" Dense="true" Variant="Variant.Filled" Label="Subset">
-                    <MudMenuItem OnClick="@(() => onEventTypeSelected("222", "2x2"))" Label="Scramble" />
-                    <MudMenuItem OnClick="@(() => onSubsetSelected("2gll"))" Label="CLL" />
-                </MudMenu>
-            }
-            @if (currentEventType == "333")
-            {
-                // TODO: Need to encapsulate this in a new component
-                <MudMenu Style="margin-left: 20px" Dense="true" Variant="Variant.Filled" Label="Subset">
-                    <MudMenuItem OnClick="@(() => onEventTypeSelected("333", "3x3"))" Label="Scramble" />
-                    <MudMenuItem OnClick="@(() => onSubsetSelected("oll"))" Label="OLL" />
-                    <MudMenuItem OnClick="@(() => onSubsetSelected("pll"))" Label="PLL" />
-                </MudMenu>
-            }
-        </MudItem>
-        <MudText Style="max-width: 1000px" Align="Align.Center" Typo="Typo.h4"><b>@currentScramble</b></MudText>
-    </MudItem>
+    <HollowTime.Components.Scramble.CubeScramble @ref="scramble"/>
     
     <!-- Cube Visual -->
-    <CubeVisualizer CurrentScramble="@currentScramble" CurrentEvent="@currentEventType"/>
+    <CubeVisualizer @ref="visualizer"/>
     
     <!-- Timer -->
     <MudItem Class="d-flex align-center mud-width-full justify-center" xs="12">
