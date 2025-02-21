@@ -13,7 +13,8 @@ namespace HollowTime.Components
         
         TimeSpan lastTime;
         TimeSpan averageOfFive;
-        TimeSpan averageOfTwelve;
+        TimeSpan averageOfTwelve; 
+        TimeSpan mean;
         
         #endregion
         
@@ -34,8 +35,8 @@ namespace HollowTime.Components
         {
             lastTime = timeToRecord;
             // Compute the averages
-            averageOfFive = computeAverage(5, timeToRecord);
-            averageOfTwelve = computeAverage(12, timeToRecord);
+            averageOfFive = getAverageOfNumber(5, timeToRecord);
+            averageOfTwelve = getAverageOfNumber(12, timeToRecord);
 
             // Populate the recordedTime structure with timeToRecord
             RecordData recordedTime = new RecordData
@@ -56,6 +57,7 @@ namespace HollowTime.Components
             summaryTimes[2].Current = averageOfTwelve;
             summaryTimes[2].Best = recordedTime.AverageOfTwelve.BestTime ? averageOfTwelve : summaryTimes[2].Best;
             
+            computeMean();
             StateHasChanged();
         }
         
@@ -84,7 +86,7 @@ namespace HollowTime.Components
             }
         }
 
-        TimeSpan computeAverage(int averageOfNumber, TimeSpan withTime = default(TimeSpan))
+        TimeSpan getAverageOfNumber(int averageOfNumber, TimeSpan withTime = default(TimeSpan))
         {
             TimeSpan returnedAverage = TimeSpan.Zero;
             bool isWithTime = withTime != TimeSpan.Zero;
@@ -114,6 +116,22 @@ namespace HollowTime.Components
             // Compute the average of the remaining times
             returnedAverage = TimeSpan.FromTicks((long)lastTimes.Average(ts => ts.Ticks));
             return returnedAverage;
+        }
+        
+        void computeMean()
+        {
+            if (currentTimes.Count < 1)
+            {
+                return;
+            }
+            
+            long tickMean = 0;
+            foreach (RecordData time in currentTimes)
+            {
+                tickMean += time.SingleTime.Time.Ticks;
+            }
+            long meanTicks = tickMean / currentTimes.Count;
+            mean = TimeSpan.FromTicks(meanTicks);
         }
 
         bool isBestTime(TimeSpan time, RecordType recordType)
