@@ -1,13 +1,21 @@
 ﻿using HollowTime.Data;
 using HollowTime.Utility;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using System.Net.Security;
 
 namespace HollowTime.Components
 {
     public partial class TimeStats : ComponentBase
     {
+        #region Private Properties
+
+        [Inject] IDialogService? dialogService { get; set; }
+
+        #endregion
+
         #region Private Members
-        
+
         List<RecordData> currentTimes = new List<RecordData>();
         List<SummaryTimeData> summaryTimes = new List<SummaryTimeData>();
         
@@ -35,8 +43,9 @@ namespace HollowTime.Components
         {
             lastTime = timeToRecord;
             // Compute the averages
-            averageOfFive = getAverageOfNumber(5, timeToRecord);
-            averageOfTwelve = getAverageOfNumber(12, timeToRecord);
+            List<TimeSpan> times = currentTimes.Select(x => x.SingleTime.Time).ToList();
+            averageOfFive = getAverageOfNumber(5, times, timeToRecord);
+            averageOfTwelve = getAverageOfNumber(12, times, timeToRecord);
 
             // Populate the recordedTime structure with timeToRecord
             RecordData recordedTime = new RecordData
@@ -60,10 +69,33 @@ namespace HollowTime.Components
             computeMean();
             StateHasChanged();
         }
-        
+
         #endregion
-        
+
         #region Private Methods
+
+        async void onSingleClicked(int solveIndex) 
+        {
+            if (dialogService is null)
+            {
+                return;
+            }
+
+            var options = new DialogOptions { CloseOnEscapeKey = true };
+
+            bool? result = await dialogService.ShowMessageBox(
+                "Do you want to delete a solve?",
+                $"Solve at index: {solveIndex}",
+                yesText: "Delete",
+                cancelText: "Cancel",
+                options: options);
+
+            if (result is not null && result.Value) 
+            {
+                removeSolveAtIndex(solveIndex);
+                StateHasChanged();
+            }
+        }
 
         string getFormatedTime(TimeSpan time)
         {
@@ -86,19 +118,18 @@ namespace HollowTime.Components
             }
         }
 
-        TimeSpan getAverageOfNumber(int averageOfNumber, TimeSpan withTime = default(TimeSpan))
+        TimeSpan getAverageOfNumber(int averageOfNumber, List<TimeSpan> times, TimeSpan withTime = default(TimeSpan))
         {
             TimeSpan returnedAverage = TimeSpan.Zero;
             bool isWithTime = withTime != TimeSpan.Zero;
 
             // Check if there is enough times to compute the average (take withTime in consideration)
-            if ((!isWithTime && currentTimes.Count < averageOfNumber) || (isWithTime && currentTimes.Count < averageOfNumber - 1))
+            if ((!isWithTime && times.Count < averageOfNumber) || (isWithTime && times.Count < averageOfNumber - 1))
             {
                 return returnedAverage;
             }
 
             // Take last averageOfNumber times
-            List<TimeSpan> times = currentTimes.Select(x => x.SingleTime.Time).ToList();
             if (isWithTime)
             {
                 times.Add(withTime);
@@ -134,7 +165,7 @@ namespace HollowTime.Components
             mean = TimeSpan.FromTicks(meanTicks);
         }
 
-        bool isBestTime(TimeSpan time, RecordType recordType)
+        bool isBestTime(TimeSpan time, RecordType recordType, bool withTime = false)
         {
             bool isBest = false;
 
@@ -142,22 +173,20 @@ namespace HollowTime.Components
             {
                 return isBest;
             }
-
-            //List<RecordData> times = currentTimes.Where(x => !x.SingleTime.Time.Equal(TimeSpan.Zero)).ToList();
             
             switch (recordType)
             {
                 case RecordType.Single:
                     isBest = currentTimes.Where(x => !x.SingleTime.Time.Equal(TimeSpan.Zero))
-                                            .All(x => x.SingleTime.Time > time);
+                                            .All(x => withTime ? x.SingleTime.Time >= time : x.SingleTime.Time > time);
                     break;
                 case RecordType.AO5:
                     isBest = currentTimes.Where(x => !x.AverageOfFive.Time.Equal(TimeSpan.Zero))
-                                            .All(x => x.AverageOfFive.Time > time);
+                                            .All(x => withTime? x.AverageOfFive.Time >= time : x.AverageOfFive.Time > time);
                     break;
                 case RecordType.AO12:
                     isBest = currentTimes.Where(x => !x.AverageOfTwelve.Time.Equal(TimeSpan.Zero))
-                                            .All(x => x.AverageOfTwelve.Time > time);
+                                            .All(x => withTime ? x.AverageOfTwelve.Time >= time : x.AverageOfTwelve.Time > time);
                     break;
                 default:
                     isBest = false;
@@ -166,7 +195,39 @@ namespace HollowTime.Components
 
             return isBest;
         }
-        
+
+        void removeSolveAtIndex(int solveIndex) 
+        {
+            // Remove the time element
+            currentTimes.RemoveAt(solveIndex - 1);
+
+            List<TimeSpan> encounteredTimes = new List<TimeSpan>();
+            
+            // Rebuild the list by recomputing the averages and indexes
+            for (int i = 0; i < currentTimes.Count; i++) 
+            {
+                currentTimes[i].SolveIndex = i + 1;
+
+                List<TimeSpan> times = currentTimes.Select(x => x.SingleTime.Time).Take(i + 1).ToList();
+
+                // Because we are using the withTime bool with isBestTime, if we have to same times we don't want to set both as best times
+                bool withTime = encounteredTimes.All(x => currentTimes[i].SingleTime.Time != x);
+                
+                // Recompute Single
+                currentTimes[i].SingleTime.BestTime = isBestTime(currentTimes[i].SingleTime.Time, RecordType.Single, withTime);
+                
+                // Recompute AO5
+                currentTimes[i].AverageOfFive.Time = getAverageOfNumber(5, times);
+                currentTimes[i].AverageOfFive.BestTime = isBestTime(currentTimes[i].AverageOfFive.Time, RecordType.AO5, withTime);
+
+                // Recompute AO12
+                currentTimes[i].AverageOfTwelve.Time = getAverageOfNumber(12, times);
+                currentTimes[i].AverageOfTwelve.BestTime = isBestTime(currentTimes[i].AverageOfTwelve.Time, RecordType.AO12, withTime);
+                
+                encounteredTimes.Add(currentTimes[i].SingleTime.Time);
+            }
+        }
+
         #endregion
     }
 }

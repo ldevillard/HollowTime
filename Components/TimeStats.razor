@@ -37,7 +37,7 @@
                     @if (item.SingleTime.BestTime)
                     {
                         <MudTd>
-                            <MudText Color="Color.Success">
+                            <MudText @onclick="() => onSingleClicked(item.SolveIndex)" Color="Color.Success" Class="cursor-pointer">
                                 <b>@getFormatedTime(item.SingleTime.Time)</b>
                             </MudText>
                         </MudTd>
@@ -45,7 +45,7 @@
                     else
                     {
                         <MudTd>
-                            <MudText Color="Color.Default">
+                            <MudText @onclick="() => onSingleClicked(item.SolveIndex)" Color="Color.Default" Class="cursor-pointer">
                                 @getFormatedTime(item.SingleTime.Time)
                             </MudText>
                         </MudTd>
