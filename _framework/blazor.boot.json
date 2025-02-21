@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "HollowTime",
   "resources": {
-    "hash": "sha256-RkVekoWy2jtPrA1PTE179Do8QOddHmsLSVvCi/IxVo0=",
+    "hash": "sha256-E7bX/BjX7oiNNpibSGendnZw+BoO5fwFZaAzGuvKwL8=",
     "jsModuleNative": {
       "dotnet.native.8.0.13.f1wj86lvfk.js": "sha256-xNQsYHtL1vcbrVTHDZAwJM4WovpoyjsrM2C6FQ8cW1w="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "HollowTime.wasm": "sha256-c82P3FE//A+SY1LsBj8u2x7gjxsVawz2ribJH025l+s=",
+      "HollowTime.wasm": "sha256-Ddq01ofwf6EPLk8HLDsfJ5lZHihfopmznehEXOLBQy0=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-89iuHISD/XnYUxI+leQKE1lYtKRCq7cCNs46WPyRmOY=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-PbamUA47UB9QlW/jjfDu4b+T48uZVwOP1lss1OgB+ZU=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-LfSuWkavDE08wwxsvVxUOwTKoGHAYFwEui9R9DI1S10=",
@@ -38,7 +38,7 @@
       "MudBlazor.wasm": "sha256-89zibqFnEyLUyqJ2stI8TZ36vvoaw/DNI+UZ4wH5RVI=",
       "System.Collections.Concurrent.wasm": "sha256-y1x7UfhfwMP3kkAvWRYNFL75U7A3qoDa2Y+9Gcey/yI=",
       "System.Collections.Immutable.wasm": "sha256-LH7XO/Iw8VnA1hCVvn7gfZSOh4Rs1CmwJbSE4Sv2XJE=",
-      "System.Collections.wasm": "sha256-cjCy6R/nbH4HEbG8iUKDxPcpUIRF+qqA3B3TJ7cnczw=",
+      "System.Collections.wasm": "sha256-9mdXdT/WPImFOPF/IWoCONZ3eG7GeYZ6HRafN5H8AVU=",
       "System.ComponentModel.Annotations.wasm": "sha256-e3Qan/SMvqS3IWOBwmrCkSp+DdMHhShK3moR8lVYKcs=",
       "System.ComponentModel.Primitives.wasm": "sha256-XFI1cU2IkkYAl5VeZavX+xrhEIHuhoIGNmSvQzW2Szc=",
       "System.ComponentModel.TypeConverter.wasm": "sha256-rMT+oY6G4xTpcfAxGv+4ZUYeczQKPdmyk18BDCQH1T0=",
