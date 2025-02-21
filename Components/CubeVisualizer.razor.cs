@@ -7,6 +7,8 @@ namespace HollowTime.Components
 {
     public partial class CubeVisualizer : ComponentBase
     {
+        #region Private Properties
+        
         string currentScramble { get; set; } = string.Empty;
         string currentEvent { get; set; } = string.Empty;
         
@@ -21,8 +23,16 @@ namespace HollowTime.Components
         }
         bool _is3D;
         
+        #endregion
+        
+        #region Private Members
+        
         string buttoncLabel = "3D";
+        
+        #endregion
 
+        #region Public Methods
+        
         public void RefreshVisualizer(ScrambleData scrambleData)
         {
             currentScramble = scrambleData.Scramble;
@@ -30,9 +40,15 @@ namespace HollowTime.Components
             StateHasChanged();
         }
         
+        #endregion
+        
+        #region Private Methods
+        
         void onButtonClicked()
         {
             is3D = !is3D;
         }
+        
+        #endregion
     }
 }

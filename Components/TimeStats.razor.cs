@@ -6,12 +6,18 @@ namespace HollowTime.Components
 {
     public partial class TimeStats : ComponentBase
     {
+        #region Private Members
+        
         List<RecordData> currentTimes = new List<RecordData>();
         List<SummaryTimeData> summaryTimes = new List<SummaryTimeData>();
         
         TimeSpan lastTime;
         TimeSpan averageOfFive;
         TimeSpan averageOfTwelve;
+        
+        #endregion
+        
+        #region Protected Methods
 
         protected override void OnInitialized()
         {
@@ -19,6 +25,10 @@ namespace HollowTime.Components
             summaryTimes.Add(new SummaryTimeData { Type = RecordType.AO5});
             summaryTimes.Add(new SummaryTimeData { Type = RecordType.AO12});
         }
+        
+        #endregion
+        
+        #region Public Methods
         
         public void RecordTime(TimeSpan timeToRecord)
         {
@@ -48,6 +58,10 @@ namespace HollowTime.Components
             
             StateHasChanged();
         }
+        
+        #endregion
+        
+        #region Private Methods
 
         string getFormatedTime(TimeSpan time)
         {
@@ -134,5 +148,7 @@ namespace HollowTime.Components
 
             return isBest;
         }
+        
+        #endregion
     }
 }

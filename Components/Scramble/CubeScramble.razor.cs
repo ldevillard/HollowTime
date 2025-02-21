@@ -5,9 +5,19 @@ namespace HollowTime.Components.Scramble
 {
     public partial class CubeScramble : ComponentBase
     {
+        #region Public Events
+        
         public event Action<ScrambleData> OnScrambleChanged = delegate { };
         
+        #endregion
+        
+        #region Private Members
+        
         ScrambleData currentScramble = new ScrambleData();
+        
+        #endregion
+        
+        #region Public Methods
         
         public async void RefreshScramble() 
         {
@@ -22,6 +32,10 @@ namespace HollowTime.Components.Scramble
             OnScrambleChanged?.Invoke(currentScramble);
             StateHasChanged();
         }
+        
+        #endregion
+        
+        #region Protected Methods
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -30,6 +44,10 @@ namespace HollowTime.Components.Scramble
                 RefreshScramble();
             }
         }
+        
+        #endregion
+        
+        #region Private Methods
 
         void onEventTypeSelected(string eventType, string eventName)
         {
@@ -45,5 +63,7 @@ namespace HollowTime.Components.Scramble
             currentScramble.SubsetType = subset;
             RefreshScramble();
         }
+        
+        #endregion
     }
 }

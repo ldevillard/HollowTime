@@ -5,8 +5,14 @@ namespace HollowTime.Components
 {
     public partial class Timer : ComponentBase
     {
+        #region Public Events
+        
         public event Action<TimeSpan> OnTimerEnded = delegate { };
+        
+        #endregion
 
+        #region Private Enum
+        
         enum TimerState
         {
             Stopped,
@@ -14,6 +20,10 @@ namespace HollowTime.Components
             Ready,
             Running,
         };
+        
+        #endregion
+        
+        #region Private Members
 
         TimerState currentState = TimerState.Stopped;
         MudBlazor.Color currentColor = MudBlazor.Color.Default;
@@ -24,6 +34,10 @@ namespace HollowTime.Components
 
         System.Timers.Timer loadingTimer = new();
 
+        #endregion
+        
+        #region Public Methods
+        
         public void TryLoadTimer()
         {
             switch (currentState)
@@ -55,6 +69,10 @@ namespace HollowTime.Components
                 StateHasChanged();
             }
         }
+        
+        #endregion
+        
+        #region Private Methods
 
         void loadTimer()
         {
@@ -109,5 +127,7 @@ namespace HollowTime.Components
             elapsedTime = DateTime.Now - startTime;
             InvokeAsync(StateHasChanged);
         }
+        
+        #endregion
     }
 }
